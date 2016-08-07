@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 ,id:必须与对应接口的某个对应的方法名一致  -->
+<mapper namespace="cn.springmvc.dao.UserDao">
+    <!-- 定义返回User实体Map -->
+	<resultMap id="UserResultMap" type="User">
+	    <id column="ID" property="id" jdbcType="VARCHAR" />
+	    <result column="CODE" property="code" jdbcType="VARCHAR" />
+	    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+	    <result column="AGE" property="age" jdbcType="INTEGER" />
+	    <result column="NAME" property="name" jdbcType="VARCHAR" />
+	    <result column="CREATE_CODE" property="createCode" jdbcType="INTEGER" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIME" />
+	</resultMap>
+	
+	<!-- 查询用户列表 -->
+	<select id="selectUserListPage" parameterType="cn.springmvc.interceptor.Page" resultType="PD">
+	    SELECT * FROM user WHERE 1=1
+	    <if test="pd.phone!=null and pd.phone!=''">
+	    	AND phone like CONCAT('%',#{pd.phone},'%')
+	    </if>
+	</select>
+	
+	<!-- 查询用户列表总数 -->
+	<select id="selectUserListCount" parameterType="cn.springmvc.interceptor.Page" resultType="int">
+	    SELECT count(1) FROM user WHERE 1=1
+	    <if test="pd.phone!=null and pd.phone!=''">
+	    	AND phone like CONCAT('%',#{pd.phone},'%')
+	    </if>
+	</select>
+         
+</mapper>

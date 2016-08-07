@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 ,id:必须与对应接口的某个对应的方法名一致  -->
+<mapper namespace="cn.springmvc.dao.HotDao">
+	
+	<!-- 查询列表 -->
+	<select id="selectHotListPage" parameterType="cn.springmvc.interceptor.Page" resultType="PD">
+	    SELECT * FROM hot WHERE 1=1
+	    <if test="pd.complain!=null and pd.complain!=''">
+	    	AND complain like CONCAT('%',#{pd.complain},'%')
+	    </if>
+	</select>
+	
+	<!-- 查询列表总数 -->
+	<select id="selectHotListCount" parameterType="cn.springmvc.interceptor.Page" resultType="int">
+	    SELECT count(1) FROM hot WHERE 1=1
+	    <if test="pd.complain!=null and pd.complain!=''">
+	    	AND complain like CONCAT('%',#{pd.complain},'%')
+	    </if>
+	</select>
+         
+</mapper>

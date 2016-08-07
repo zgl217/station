@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+*{
+	margin:0;padding:0;
+}
+body {
+    font-family:verdana,helvetica,arial,sans-serif;
+    font-size:12px;
+}
+#wrap{
+	width:100%;
+	height:100%;
+	background: rgb(51, 143, 204);
+}
