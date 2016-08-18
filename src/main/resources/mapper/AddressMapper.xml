@@ -3,21 +3,21 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace：必须与对应的接口全类名一致 ,id:必须与对应接口的某个对应的方法名一致  -->
-<mapper namespace="cn.springmvc.dao.HotDao">
+<mapper namespace="cn.springmvc.dao.AddressDao">
 	
 	<!-- 查询列表 -->
 	<select id="selectListPage" parameterType="cn.springmvc.interceptor.Page" resultType="PD">
-	    SELECT * FROM hot WHERE 1=1
+	    SELECT * FROM address WHERE 1=1
 	    <if test="pd.complain!=null and pd.complain!='null' and pd.complain!=''">
-	    	AND complain like CONCAT('%',#{pd.complain},'%')
+	    	AND area like CONCAT('%',#{pd.complain},'%')
 	    </if>
 	</select>
 	
 	<!-- 查询列表总数 -->
 	<select id="selectListCount" parameterType="cn.springmvc.interceptor.Page" resultType="int">
-	    SELECT count(1) FROM hot WHERE 1=1
+	    SELECT count(1) FROM address WHERE 1=1
 	    <if test="pd.complain!=null and pd.complain!='null' and pd.complain!=''">
-	    	AND complain like CONCAT('%',#{pd.complain},'%')
+	    	AND area like CONCAT('%',#{pd.complain},'%')
 	    </if>
 	</select>
          

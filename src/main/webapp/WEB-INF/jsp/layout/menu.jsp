@@ -17,7 +17,7 @@ $(function(){
 		$(".menuUl li").removeClass("active");
 		$(this).addClass("active");
 		var url = "${path}"+$(this).attr("url");
-		indexTabsAddTab("href",{title:$(this).text(),url:url});
+		indexTabsAddTab("iframe",{title:$(this).text(),url:url});
 // 		$("#conFrame").attr("src",url);
 	});
 });
@@ -26,8 +26,8 @@ $(function(){
 <body>
 		<div style="width:100%;height:100%;background:#EFF2FE">
 			<ul class="menuUl">
-				<li class="active" url="/trans">附近基站查询</li>
-				<li url="/community">关联热点查询</li>
+				<li class="active" url="/community">关联热点查询</li>
+				<li url="/trans">附近基站查询</li>
 				<li url="/address">地址库录入</li>
 			</ul>
 	    </div>

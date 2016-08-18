@@ -4,19 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="${path }/static/jquery-easyui-1.4.3/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="${path }/static/jquery-easyui-1.4.3/themes/bootstrap/easyui.css">
 <link rel="stylesheet" type="text/css" href="${path }/static/jquery-easyui-1.4.3/themes/icon.css">
 <script type="text/javascript" src="${path }/static/script/jquery.min.js"></script>
 <script type="text/javascript" src="${path }/static/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${path }/static/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
 	body{font-size:12px;width:100%;height:100%}
 	.content{overflow-x:hidden;overflow-y:auto}
-	table{width:100%;font-size:12px;}
-	table th{height:30px;background:#CFCFFF;border-bottom:3px solid #fff}
-	table td{height:30px;background:#f5f5f5;border-bottom:3px solid #fff}
-	li{list-style:none;height:50px;line-height:50px}
-	.addtext{padding:6px 5px;border:1px solid #c0c0c0;width:300px}
+	/*datagrid*/
+    .datagrid-header {background:#EBEFEF;}
+    .datagrid-htable {background:#EBEFEF;font-weight:bold}
+	.datagrid-header-row,.datagrid-row{ height:34px;}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -28,34 +28,40 @@ $(function(){
 	    	doSearch();
 	    }
 	});
+	
+	//加载列表
+	$("#addressList").datagrid(
+			{
+				url:'${path}/getAddress',
+				method : 'get',
+				pagination : true,
+				rownumbers:true,
+				autoRowHeight:true,
+				pageSize:50,
+				pageList:[20,50,100,200,300],
+				fitColumns : true,
+				striped: true, //行背景交换
+	            nowrap: false, //列内容多时自动折至第二行
+	            resize : true,
+				remoteSort : true,
+				singleSelect:true,
+				border:false,	
+				height:$(".content").height(), 
+				columns : [ [
+					{field : 'id',hidden:true},         
+					{field : 'area',title : '区县',width : 30},
+					{field : 'address',title : '地址',width : 50},
+					{field : 'bd_lng',title : '百度经度',width : 50},
+					{field : 'bd_lat',title : '百度纬度',width : 50},
+					{field : 'gc_lng',title : '谷歌经度',width : 50},
+					{field : 'gc_lat',title : '谷歌纬度',width : 50}
+				             ] ]
+			});
 });
 function doSearch(){
 	var commnuityKey  = $("input[name='commnuityKey']").val();
-	if(commnuityKey==""){
-		alert("请输入小区名称或关键字!");
-		return
-	}
-	top.$.messager.progress({text:'数据处理中...'});
-	$.get("${path}/getAddress",{commnuityKey:commnuityKey},function(data){
-		top.$.messager.progress('close');
-		var d = $.parseJSON(data);
-		if(d.returnCode=="SUCCESS"){
-			var complain = d.complain;
-			var list = d.addressList;
-	 		var html = "";
-	 		if(list.length>0){
-	 			for(var i=0;i<list.length;i++){
-	 				var t = list[i];
-	 				html+="<tr><td align='center'>"+t[0]+"</td><td align='center'>"+t[1]+"</td><td align='center'>"+t[2]+"</td><td align='center'>"+t[3]+"</td><td align='center'>"+t[4]+"</td></td><td align='center'>"+t[5]+"</td></tr>";
-	 			}
-	 		}else{
-	 			html+="<tr><td colspan='5' style='color:red;font-weight:bold;text-align:center;' >未查到数据!</td></tr>";
-	 		}
-	 		$(".content table tbody").html(html);
-		}else{
-			$(".content table tbody").html("");
-			alert(d.message);
-		}
+	$('#addressList').datagrid({
+		 url : '${path}/getAddress',queryParams : {complain:commnuityKey}
 	});
 }
 //新增
@@ -104,22 +110,8 @@ function doSave(){
 		<a class="easyui-linkbutton" onClick="doAdd()">新&nbsp;增</a>
     </div>
     <div class="content">
-    	<table border="0" cellspacing="0" cellpadding="0">
-    		<thead>
-    			<tr>
-    				<th>县区</th>
-    				<th>地址</th>
-    				<th>百度经度</th>
-    				<th>百度纬度</th>
-    				<th>谷歌经度</th>
-    				<th>谷歌纬度</th>
-    			</tr>
-    		</thead>
-    		<tbody>
-    		</tbody>
-    	</table>
+    	<table id="addressList"></table>
     </div>
-    
     <!-- dialog -->
     <div id="addDialog" class="easyui-dialog" title="新增地址库" style="width:500px;height:280px" closed="true">
     	<ul>

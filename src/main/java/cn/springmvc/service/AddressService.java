@@ -5,25 +5,25 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.springmvc.dao.HotDao;
+import cn.springmvc.dao.AddressDao;
 import cn.springmvc.interceptor.Page;
 import cn.springmvc.util.PageData;
 
 
 @Service
-public class HotService{
+public class AddressService{
 
 	@Autowired
-	private HotDao hotDao;
+	private AddressDao addressDao;
 	
 	
 	public int selectListCount(Page page) throws Exception {
 		// TODO Auto-generated method stub
-		return hotDao.selectListCount(page);
+		return addressDao.selectListCount(page);
 	}
 	
 	public List<PageData> selectListPage(Page page) throws Exception {
 		// TODO Auto-generated method stub
-		return hotDao.selectListPage(page);
+		return addressDao.selectListPage(page);
 	}
 }

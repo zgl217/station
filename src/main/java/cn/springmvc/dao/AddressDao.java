@@ -6,7 +6,7 @@ import cn.springmvc.interceptor.Page;
 import cn.springmvc.util.PageData;
 
 
-public interface HotDao {
+public interface AddressDao {
 
 	
 	/**

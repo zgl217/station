@@ -99,7 +99,7 @@ $(function() {
 			//alert(params.url);
 		} else {
 			//alert('iframe title:'+params.title);
-			var iframe = '<iframe src="' + params.url + '" frameborder="0" style="border:0;width:100%;height:98%;"></iframe>';
+			var iframe = '<iframe src="' + params.url + '" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width:100%;height:100%;"></iframe>';
 			opts = {
 				title : params.title,
 				closable : true,
