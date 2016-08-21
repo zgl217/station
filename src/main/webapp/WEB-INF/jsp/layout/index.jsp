@@ -27,7 +27,7 @@
 	        <div id="frameBox" data-options="region:'center'" >
 	        	<div id="index_tabs" class="easyui-tabs" style="width:100%;height:100%;border:false">
 					<div title="关联热点查询"  data-options="fit:true" >
-			        	<iframe id="conFrame" src="${path }/community" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width:100%;height:97%" ></iframe>
+			        	<iframe id="conFrame" src="${path }/hot" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="width:100%;height:97%" ></iframe>
 					</div>
 				</div>
 	        </div>

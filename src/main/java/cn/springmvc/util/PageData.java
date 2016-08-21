@@ -32,11 +32,17 @@ public class PageData extends HashMap implements Map{
 			}else if(valueObj instanceof String[]){ 
 				String[] values = (String[])valueObj;
 				for(int i=0;i<values.length;i++){ 
-					 value = HandleMessyCode.handle(values[i]) + ",";
+					if("GET".equals(request.getMethod()))
+						value = HandleMessyCode.handle(values[i]) + ",";
+					else
+						value = values[i] + ",";
 				}
 				value = value.substring(0, value.length()-1); 
 			}else{
-				value = HandleMessyCode.handle(valueObj.toString()); 
+				if("GET".equals(request.getMethod()))
+					value = HandleMessyCode.handle(valueObj.toString());
+				else
+					value = valueObj.toString();
 			}
 			returnMap.put(name, value); 
 		}

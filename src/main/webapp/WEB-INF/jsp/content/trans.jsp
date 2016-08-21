@@ -20,18 +20,13 @@
 </style>
 <script type="text/javascript">
 $(function(){
+	parent.$.messager.progress("close");
 // 	$("body").height(parent.document.getElementById("frameBox").style.height);
 	$(".content").height($(window).height()-$(".title").height()-$(".filter").height());
-	//回车提交
-	$('#commnuityKey').keydown(function(e){
-	    if(e.keyCode == 13){
-	    	doSearch();
-	    }
-	});
 	//加载列表
-	$("#communityList").datagrid(
+	$("#transList").datagrid(
 			{
-				url:'${path}/getCommunity',
+				url:'${path}/getTrans?address=${address}&bdLng=${param.bdLng}&bdLat=${param.bdLat}&gcLng=${param.gcLng}&gcLat=${param.gcLat}',
 				method : 'get',
 				pagination : true,
 				rownumbers:true,
@@ -45,33 +40,28 @@ $(function(){
 				remoteSort : true,
 				singleSelect:true,
 				border:false,	
-				height:$(".content").height()-30, 
+				height:$(".content").height(), 
 				columns : [ [
 					{field : 'id',hidden:true},         
-					{field : 'area',title : '区县',width : 30},
 					{field : 'complain',title : '投诉点',width : 50},
-					{field : 'solution',title : '解决方案描述',width : 300 }
+					{field : 'lteCell',title : '最近4G小区',width : 80},
+					{field : 'lteDistance',title : '距离(米)',width : 30},
+					{field : 'gsmCell',title : '最近2G小区',width : 80},
+					{field : 'gsmDistance',title : '距离(米)',width : 30}
 				             ] ]
 			});
 });
 
-/** 查询  **/
-function doSearch(){
-	var commnuityKey  = $("input[name='commnuityKey']").val();
-	$('#communityList').datagrid({
-		 url : '${path}/getCommunity',queryParams : {complain:commnuityKey}
-	});
-}
 
 </script>
 </head>
 <body>
-	<div class="filter" style="width:100%;height:60px;line-height:60px;border-bottom:1px solid #e0e0e0;background:#f8f8f8">
-		<input type="text" name="commnuityKey" id="commnuityKey" style="width:300px;height:34px;margin-left:15px;border:1px solid #c0c0c0;border-radius:5px;text-indent:5px;" placeholder="输入关键字回车查询"/>
-		&nbsp;<a class="easyui-linkbutton" onClick="doSearch()">&nbsp;查&nbsp;询&nbsp;</a>
+	<div class="filter" style="text-align:center;width:100%;height:60px;line-height:60px;border-bottom:1px solid #e0e0e0;background:#f8f8f8">
+		<input type="hidden" name="commnuityKey" id="commnuityKey" value="${address}"/>
+		<span style="font-size:22px;color:blue">${address}&nbsp;&nbsp;附近基站</span>
     </div>
     <div class="content">
-    	<table id="communityList"></table>
+    	<table id="transList"></table>
     </div>
 </body>
 </html>

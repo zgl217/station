@@ -31,7 +31,7 @@ $(function(){
 	//加载列表
 	$("#communityList").datagrid(
 			{
-				url:'${path}/getCommunity',
+				url:'${path}/getHot',
 				method : 'get',
 				pagination : true,
 				rownumbers:true,
@@ -59,7 +59,7 @@ $(function(){
 function doSearch(){
 	var commnuityKey  = $("input[name='commnuityKey']").val();
 	$('#communityList').datagrid({
-		 url : '${path}/getCommunity',queryParams : {complain:commnuityKey}
+		 url : '${path}/getHot',queryParams : {complain:commnuityKey}
 	});
 }
 

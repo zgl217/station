@@ -1,7 +1,9 @@
 package cn.springmvc.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.springmvc.interceptor.Page;
 import cn.springmvc.service.AddressService;
 import cn.springmvc.service.HotService;
+import cn.springmvc.service.TransService;
 import cn.springmvc.service.UserService;
 import cn.springmvc.util.EasyUIQueryResult;
+import cn.springmvc.util.HandleMessyCode;
 import cn.springmvc.util.PageData;
 import cn.springmvc.util.ReturnCode;
 @Controller
@@ -30,6 +34,8 @@ public class MainController {
 	HotService hotService;
 	@Autowired
 	AddressService addressService;
+	@Autowired
+	TransService transService;
 	
 	@RequestMapping(value={"","/","/index"})
 	public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {
@@ -81,17 +87,17 @@ public class MainController {
 	/**
 	 *跳转到关联热点页面
 	 */
-	@RequestMapping(value={"/community"})
+	@RequestMapping(value={"/hot"})
 	public ModelAndView community(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		//1、收集参数//2、绑定参数到命令对象//3、调用业务对象//4、选择下一个页面
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("content/community");
+		mv.setViewName("content/hot");
 		return mv;
 	}
 	/**
 	 *关联热点查询
 	 */
-	@RequestMapping(value={"/getCommunity"})
+	@RequestMapping(value={"/getHot"})
 	@ResponseBody
 	public EasyUIQueryResult<PageData> getCommunity(
 			HttpServletRequest req, 
@@ -124,6 +130,7 @@ public class MainController {
 	public ModelAndView trans(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		//1、收集参数//2、绑定参数到命令对象//3、调用业务对象//4、选择下一个页面
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("address", HandleMessyCode.handle(req.getParameter("address")));
 		mv.setViewName("content/trans");
 		return mv;
 	}
@@ -141,10 +148,10 @@ public class MainController {
 		Page page = new Page(pageNo,pageSize,new PageData(req));
 		EasyUIQueryResult<PageData> result = new EasyUIQueryResult<PageData>(ReturnCode.SUCCESS);
 		try {
-			int total = hotService.selectListCount(page);
+			int total = 50;
 			List<PageData> list = null;
 			if(total>0){
-				list = hotService.selectListPage(page);
+				list = transService.selectListPage(page);
 			}
 			result.setReturnCode(ReturnCode.SUCCESS);
 			result.setTotal(total);
@@ -181,7 +188,7 @@ public class MainController {
 		EasyUIQueryResult<PageData> result = new EasyUIQueryResult<PageData>(ReturnCode.SUCCESS);
 		try {
 			int total = addressService.selectListCount(page);
-			List<PageData> list = null;
+			List<PageData> list = new ArrayList<PageData>();
 			if(total>0){
 				list = addressService.selectListPage(page);
 			}
@@ -192,6 +199,29 @@ public class MainController {
 		} catch (Exception e) {
 			result.setReturnCode(ReturnCode.EXCEPTION);
 			result.setMessage("处理失败!");
+		}
+		return result;
+	}
+	/**
+	 *地址库录入
+	 */
+	@RequestMapping(value={"/saveAddress"})
+	@ResponseBody
+	public Map<String, Object> saveAddress(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		//返回值
+		Map<String,Object> result = new HashMap<String,Object>();
+		try{
+			//参数
+			req.setCharacterEncoding("UTF-8");
+			//返回对象
+			addressService.insert(new PageData(req));
+			
+			result.put("returnCode", "SUCCESS");
+			result.put("message", "查询成功");
+		}catch(Exception e){
+			result.put("returnCode", "ERROR");
+			result.put("message", e.getMessage());
+			e.printStackTrace();
 		}
 		return result;
 	}

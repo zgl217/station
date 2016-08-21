@@ -23,5 +23,10 @@ public interface AddressDao {
 	 */
 	public List<PageData> selectListPage(Page pageParam);
 	
-	
+	/**
+	 * 插入记录
+	 * @param user
+	 * @return
+	 */
+	public int insert(PageData pd);
 }

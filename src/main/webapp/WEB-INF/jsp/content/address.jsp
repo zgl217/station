@@ -9,6 +9,7 @@
 <script type="text/javascript" src="${path }/static/script/jquery.min.js"></script>
 <script type="text/javascript" src="${path }/static/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="${path }/static/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="${path }/static/script/app_index.js"></script>
 <title>Insert title here</title>
 <style type="text/css">
 	body{font-size:12px;width:100%;height:100%}
@@ -17,6 +18,13 @@
     .datagrid-header {background:#EBEFEF;}
     .datagrid-htable {background:#EBEFEF;font-weight:bold}
 	.datagrid-header-row,.datagrid-row{ height:34px;}
+	/*dialog*/
+	.dialog-table{font-size:12px;width:100%;margin-top:10px}
+	.dialog-table td{height:50px;}
+	.dialog-table td input{border:1px solid #d0d0d0;width:90%;height:32px;line-height:32px;text-indent:5px}
+	
+	.link-a{color:red;cursor:pointer}
+	.link-a:hover{text-decoration:underline}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -54,7 +62,10 @@ $(function(){
 					{field : 'bd_lng',title : '百度经度',width : 50},
 					{field : 'bd_lat',title : '百度纬度',width : 50},
 					{field : 'gc_lng',title : '谷歌经度',width : 50},
-					{field : 'gc_lat',title : '谷歌纬度',width : 50}
+					{field : 'gc_lat',title : '谷歌纬度',width : 50},
+					{field : 'option',align:'center',title : '操作',width : 30,formatter:function(value,row,index){
+						return "<a class='link-a'  onclick='linkCell(\""+row.address+"\",\""+row.bd_lng+"\",\""+row.bd_lat+"\",\""+row.gc_lng+"\",\""+row.gc_lat+"\")' >附近基站</a>";
+					}}
 				             ] ]
 			});
 });
@@ -101,11 +112,16 @@ function doSave(){
 		}
 	});
 }
+//附近基站
+function linkCell(address,bdLng,bdLat,gcLng,gcLat){
+// 	alert(address+","+bdLng+","+bdLat+","+gcLng+","+gcLat);
+	indexTabsAddTab("iframe",{title:address,url:"${path}/trans?address="+address+"&bdLng="+bdLng+"&bdLat="+bdLat+"&gcLng="+gcLng+"&gcLat="+gcLat});
+}
 </script>
 </head>
 <body>
 	<div class="filter" style="width:100%;height:60px;line-height:60px;border-bottom:1px solid #e0e0e0;background:#f8f8f8">
-		<input type="text" name="commnuityKey" id="commnuityKey"  style="width:300px;height:30px;margin-left:30px;border:1px solid #c0c0c0;border-radius:5px;text-indent:5px;" placeholder="输入小区关键字"/>
+		<input type="text" name="commnuityKey" id="commnuityKey"  style="width:300px;height:30px;margin-left:30px;border:1px solid #c0c0c0;border-radius:5px;text-indent:5px;" placeholder="输入地址关键字"/>
 		<a class="easyui-linkbutton" onClick="doSearch()">查&nbsp;询</a>
 		<a class="easyui-linkbutton" onClick="doAdd()">新&nbsp;增</a>
     </div>
@@ -113,13 +129,24 @@ function doSave(){
     	<table id="addressList"></table>
     </div>
     <!-- dialog -->
-    <div id="addDialog" class="easyui-dialog" title="新增地址库" style="width:500px;height:280px" closed="true">
-    	<ul>
-    		<li>县区&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="area" class="addtext"/></li>
-    		<li>地址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="address" class="addtext"/></li>
-    		<li>百度经纬度&nbsp;&nbsp;<input name="bdjw" class="addtext"/></li>
-    		<li style="text-align:center"><a class="easyui-linkbutton" onClick="doSave()">保&nbsp;存</a></li>
-    	</ul>
+    <div id="addDialog" class="easyui-dialog" title="新增地址库" style="width:500px;height:250px" closed="true">
+    	<table class="dialog-table" border="0" cellspacing="0" cellpadding="0">
+    		<tr>
+    			<td width="30%" align="center">县区</td>
+    			<td width="70%" ><input name="area" class="addtext"/></td>
+    		</tr>
+    		<tr>
+    			<td align="center">地址</td>
+    			<td><input name="address" class="addtext"/></td>
+    		</tr>
+    		<tr>
+    			<td align="center">百度经纬度</td>
+    			<td><input name="bdjw" class="addtext"/></td>
+    		</tr>
+    		<tr>
+    			<td colspan="2" align="center"><a class="easyui-linkbutton" onClick="doSave()">&nbsp;保&nbsp;存&nbsp;</a></td>
+    		</tr>
+    	</table>
     </div>
 </body>
 </html>
