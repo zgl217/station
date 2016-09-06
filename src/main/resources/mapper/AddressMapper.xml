@@ -25,5 +25,10 @@
 	<insert id="insert" parameterType="cn.springmvc.util.PageData">
 	    insert into address(area,address,bd_lng,bd_lat,gc_lng,gc_lat) values (#{area},#{address},#{bdLng},#{bdLat},#{gcLng},#{gcLat})
 	</insert>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="int">
+        delete from address
+    </delete>
          
 </mapper>

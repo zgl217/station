@@ -29,4 +29,12 @@ public interface AddressDao {
 	 * @return
 	 */
 	public int insert(PageData pd);
+	
+	/**
+	 * 删除数据
+	 * @param user
+	 * @return
+	 */
+	public int delete();
+	
 }

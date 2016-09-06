@@ -29,6 +29,7 @@ $(function(){
 				<li class="active" url="/hot">关联热点查询</li>
 <!-- 				<li url="/trans">附近基站查询</li> -->
 				<li url="/address">地址库录入</li>
+				<li url="/data">数据上传</li>
 			</ul>
 	    </div>
 </body>

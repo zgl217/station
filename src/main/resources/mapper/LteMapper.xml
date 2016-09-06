@@ -20,5 +20,15 @@
 	    	AND complain like CONCAT('%',#{pd.complain},'%')
 	    </if>
 	</select>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="int">
+        delete from lte
+    </delete>
+         
+    <!-- 插入数据 -->
+	<insert id="insert" parameterType="cn.springmvc.util.PageData">
+	    insert into lte(cell_name,enode_name,gc_lng,gc_lat) values (#{cellName},#{enodeName},#{gcLng},#{gcLat})
+	</insert>
          
 </mapper>

@@ -21,4 +21,14 @@
 	    </if>
 	</select>
          
+    <!-- 删除数据 -->
+	<delete id="delete" parameterType="int">
+        delete from gsm
+    </delete>
+         
+    <!-- 插入数据 -->
+	<insert id="insert" parameterType="cn.springmvc.util.PageData">
+	    insert into gsm(cell,cell_name,area,location,gc_lng,gc_lat) values (#{cell},#{cellName},#{area},#{location},#{gcLng},#{gcLat})
+	</insert>
+	
 </mapper>

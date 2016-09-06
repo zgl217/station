@@ -1,5 +1,6 @@
 package cn.springmvc.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import cn.springmvc.interceptor.Page;
 import cn.springmvc.model.Point;
 import cn.springmvc.util.ConvertUtil;
 import cn.springmvc.util.DistanceUtil;
+import cn.springmvc.util.ExcelUtil;
 import cn.springmvc.util.MapComparator;
 import cn.springmvc.util.PageData;
 
@@ -104,5 +106,59 @@ public class TransService{
 			result.add(temp);
 		}
 		return result;
+	}
+	
+	public void initLteData(String filePathName) throws Exception{
+		//读取文件数据
+		File file = new File(filePathName);
+		String[][] data = null;
+		if(file.getName().endsWith(".xls")){
+			data = ExcelUtil.getData(file, 1);
+		}
+		if(file.getName().endsWith(".xlsx")){
+			data = ExcelUtil.getData2(file, 1);
+		}
+		//执行数据插入
+		if(data.length>0){
+			//先删除旧数据
+			lteDao.delete();
+		}
+		for(int i=0;i<data.length;i++){
+			PageData pd = new PageData();
+			pd.put("cellName", data[i][0]);
+			pd.put("enodeName", data[i][1]);
+			pd.put("gcLng", data[i][2]);
+			pd.put("gcLat", data[i][3]);
+			
+			lteDao.insert(pd);
+		}
+	}
+	
+	public void initGsmData(String filePathName) throws Exception{
+		//读取文件数据
+		File file = new File(filePathName);
+		String[][] data = null;
+		if(file.getName().endsWith(".xls")){
+			data = ExcelUtil.getData(file, 1);
+		}
+		if(file.getName().endsWith(".xlsx")){
+			data = ExcelUtil.getData2(file, 1);
+		}
+		//执行数据插入
+		if(data.length>0){
+			//先删除旧数据
+			gsmDao.delete();
+		}
+		for(int i=0;i<data.length;i++){
+			PageData pd = new PageData();
+			pd.put("cell", data[i][0]);
+			pd.put("cellName", data[i][1]);
+			pd.put("area", data[i][2]);
+			pd.put("location", data[i][3]);
+			pd.put("gcLng", data[i][4]);
+			pd.put("gcLat", data[i][5]);
+			
+			gsmDao.insert(pd);
+		}
 	}
 }

@@ -23,5 +23,17 @@ public interface HotDao {
 	 */
 	public List<PageData> selectListPage(Page pageParam);
 	
+	/**
+	 * 删除数据
+	 * @param user
+	 * @return
+	 */
+	public int delete();
 	
+	/**
+	 * 插入记录
+	 * @param user
+	 * @return
+	 */
+	public int insert(PageData pd);
 }

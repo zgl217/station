@@ -20,5 +20,14 @@
 	    	AND complain like CONCAT('%',#{pd.complain},'%')
 	    </if>
 	</select>
+	
+	<!-- 删除数据 -->
+	<delete id="delete" parameterType="int">
+        delete from hot
+    </delete>
          
+    <!-- 插入数据 -->
+	<insert id="insert" parameterType="cn.springmvc.util.PageData">
+	    insert into hot(complain,area,solution) values (#{complain},#{area},#{solution})
+	</insert>
 </mapper>
